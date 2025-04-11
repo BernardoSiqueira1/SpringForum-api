@@ -1,4 +1,4 @@
-package com.vsclone.app;
+package com.springforum.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
