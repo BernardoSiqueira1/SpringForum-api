@@ -12,7 +12,7 @@
 	<artifactId>app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>app</name>
-	<description>API rede social simples monolítica</description>
+	<description>API forum simples monolítico</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -51,6 +51,11 @@
 			<groupId>org.springframework.modulith</groupId>
 			<artifactId>spring-modulith-starter-jpa</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+			<version>3.1.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -76,6 +81,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 			<version>3.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.modulith</groupId>
