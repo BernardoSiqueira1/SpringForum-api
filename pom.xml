@@ -12,7 +12,7 @@
 	<artifactId>app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>app</name>
-	<description>API rede social simples monolítica</description>
+	<description>API forum simples monolítico</description>
 	<url/>
 	<licenses>
 		<license/>
