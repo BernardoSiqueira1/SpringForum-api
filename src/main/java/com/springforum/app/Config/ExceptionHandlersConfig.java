@@ -1,5 +1,6 @@
 package com.springforum.app.Config;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
@@ -42,6 +43,11 @@ public class ExceptionHandlersConfig {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<?> handleAuthenticationError(){
         return ResponseEntity.status(401).body("Credenciais inválidas, verifique usuário/senha");
+    }
+
+    @ExceptionHandler(JWTDecodeException.class)
+    public ResponseEntity<?> handleAuthorizationError(){
+        return ResponseEntity.status(403).body("Usuário não está autorizado, verifique token/autenticação");
     }
 
 }
