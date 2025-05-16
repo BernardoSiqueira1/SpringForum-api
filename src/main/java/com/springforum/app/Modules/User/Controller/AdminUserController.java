@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users/admin")
-@PreAuthorize("hasRole('ADMIN')")
 public class AdminUserController {
 
     @Autowired
@@ -20,6 +19,7 @@ public class AdminUserController {
     @Autowired
     private AdminUserServices adminUserServices;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/edit/{userId}")
     public ResponseEntity<?> editUserCredentials(@PathVariable Long userId, @RequestBody @Valid EditUserCredentialsDTO editCredentialsDTO){
         userServices.editUserCredentials(userId, editCredentialsDTO);
@@ -27,6 +27,7 @@ public class AdminUserController {
         return ResponseEntity.status(200).body("Usuário foi alterado com sucesso.");
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/promote/{userId}")
     public ResponseEntity<?> promoteUserRole(@PathVariable Long userId){
         adminUserServices.promoteUserToAdmin(userId);
@@ -34,6 +35,7 @@ public class AdminUserController {
         return ResponseEntity.status(200).body("Usuário foi promovido para administrador.");
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/suspend/{userId}")
     public ResponseEntity<?> suspendUser(@PathVariable Long userId){
         adminUserServices.suspendUser(userId);
@@ -41,6 +43,7 @@ public class AdminUserController {
         return ResponseEntity.status(200).body(String.format("Usuário id: %s  suspenso por tempo indeterminado.", userId));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId){
         userServices.deleteUserById(userId);
