@@ -1,4 +1,4 @@
-name: Simple build/merge workflow for VSClone
+name: Simple build/merge workflow for JavaApp
 
 on:
   pull_request:
