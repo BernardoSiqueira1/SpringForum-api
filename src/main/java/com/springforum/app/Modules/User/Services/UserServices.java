@@ -38,7 +38,7 @@ public class UserServices {
     }
 
     @Transactional
-    public void editUserCredentials(Long userId, EditUserCredentialsDTO editCredentialsDTO){
+    public void editUserCredentials(long userId, EditUserCredentialsDTO editCredentialsDTO){
         User userQuery = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário buscado não foi encontrado"));
 
@@ -47,7 +47,7 @@ public class UserServices {
     }
 
     @Transactional
-    public void deleteUserById(Long userId){
+    public void deleteUserById(long userId){
         userRepository.deleteById(userId);
     }
 

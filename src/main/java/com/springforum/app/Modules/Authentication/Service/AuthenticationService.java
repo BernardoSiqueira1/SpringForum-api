@@ -24,11 +24,13 @@ public class AuthenticationService {
     public AuthenticationDetailsDTO authenticateUser(String login, String password){
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(login, password);
 
-        User auth = (User) authenticationManager.authenticate(usernamePasswordAuthenticationToken).getPrincipal();
+        var auth = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
-        String token = tokenService.generateToken(auth);
+        User authUser = (User) auth.getPrincipal();
 
-        return new AuthenticationDetailsDTO(auth.getUserId(), auth.getUsername(), auth.getUserEmail(), token);
+        String token = tokenService.generateToken(authUser);
+
+        return new AuthenticationDetailsDTO(authUser.getUserId(), authUser.getUsername(), authUser.getUserEmail(), token);
     }
 
 }

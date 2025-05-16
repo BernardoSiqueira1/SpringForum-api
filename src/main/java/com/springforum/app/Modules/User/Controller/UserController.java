@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
-@PreAuthorize("hasRole('USER')")
 public class UserController {
 
     @Autowired
     private UserServices userServices;
 
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<?> createNewUser(@RequestBody @Valid NewUserDTO newUserDTO){
         userServices.createNewUser(newUserDTO);
 
@@ -34,7 +33,7 @@ public class UserController {
     }
 
     @PutMapping("/edit/{userId}")
-    @PreAuthorize("@PostSecurity.isAccountOwner(#userId, authorization.username())")
+    @PreAuthorize("@postSecurity.isAccountOwner(#userId, authentication.name)")
     public ResponseEntity<?> editUser(@PathVariable(required = true) long userId, @RequestBody @Valid EditUserCredentialsDTO editUserCredentialsDTO){
         userServices.editUserCredentials(userId, editUserCredentialsDTO);
 
@@ -42,7 +41,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{userId}")
-    @PreAuthorize("@PostSecurity.isAccountOwner(#userId, authorization.username())")
+    @PreAuthorize("@postSecurity.isAccountOwner(#userId, authentication.name)")
     public ResponseEntity<?> deleteUser(@PathVariable(required = true) long userId){
         userServices.deleteUserById(userId);
 

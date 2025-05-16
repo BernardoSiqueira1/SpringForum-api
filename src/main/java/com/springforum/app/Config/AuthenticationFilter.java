@@ -1,5 +1,6 @@
 package com.springforum.app.Config;
 
+import com.springforum.app.Modules.Authentication.Repository.AuthenticationRepository;
 import com.springforum.app.Modules.Authentication.Service.TokenService;
 import com.springforum.app.Modules.User.Repository.UserRepository;
 import com.springforum.app.Modules.User.Services.UserServices;
@@ -28,20 +29,31 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    private UserRepository userRepository;
+    private AuthenticationRepository authenticationRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String tokenSubject = this.verifyAuthentication(request);
-        UserDetails userQuery = userRepository.loadByUserNickname(tokenSubject);
 
-        var authenticationToken = new UsernamePasswordAuthenticationToken(userQuery, null, userQuery.getAuthorities());
+        if (tokenSubject == null){
+            filterChain.doFilter(request, response);
+        }
 
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        else{
+            UserDetails userQuery = authenticationRepository.findByUserNickname(tokenSubject);
+            var authenticationToken = new UsernamePasswordAuthenticationToken(userQuery, null, userQuery.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+            filterChain.doFilter(request, response);
+        }
     }
 
     private String verifyAuthentication(HttpServletRequest request){
         String userToken = request.getHeader("Authorization");
+
+        if (userToken == null){
+            return null;
+        }
 
         String tokenSubject = tokenService.validateToken(userToken);
 

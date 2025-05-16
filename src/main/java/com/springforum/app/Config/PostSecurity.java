@@ -22,13 +22,17 @@ public class PostSecurity {
                 .findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não foi encontrado"));
 
-        return userQuery.getUserEmail().equals(authenticationUsername);
+        System.out.println(userId);
+        System.out.println(authenticationUsername);
+        System.out.println(userQuery);
+
+        return userQuery.getUsername().equals(authenticationUsername);
     }
 
     public boolean isPostOwner(Long postId, String authenticationUsername){
         Post postQuery = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("Post não foi encontrado."));
 
-        return postQuery.getPostUsuario().getUserEmail().equals(authenticationUsername);
+        return postQuery.getPostUsuario().getUsername().equals(authenticationUsername);
     }
 
 }

@@ -2,6 +2,7 @@ package com.springforum.app.Modules.User.DTOs;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public record NewUserDTO(
         @NotNull
@@ -14,6 +15,7 @@ public record NewUserDTO(
 
         @NotNull
         @NotEmpty
+        @Size(min = 8, max = 16)
         String userPassword,
 
         @NotNull

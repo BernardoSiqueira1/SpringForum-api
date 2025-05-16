@@ -3,6 +3,7 @@ package com.springforum.app.Modules.Authentication.Service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.springforum.app.Modules.User.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class TokenService {
 
     }
 
-    public String validateToken(String token){
+    public String validateToken(String token) throws JWTDecodeException{
 
         try {
             Algorithm algorithm = Algorithm.HMAC256(issuerKey);
@@ -52,8 +53,8 @@ public class TokenService {
             return token_subject;
         }
 
-        catch (JWTVerificationException jwtVerificationException){
-            throw jwtVerificationException;
+        catch (JWTDecodeException jwtDecodeException){
+            throw jwtDecodeException;
         }
 
     }

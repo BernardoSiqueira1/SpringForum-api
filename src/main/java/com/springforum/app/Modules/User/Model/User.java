@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
+
 @Entity
 @Getter
 @Setter
@@ -69,7 +70,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername(){
-        return this.userEmail;
+        return this.userNickname;
     }
 
     @Override
@@ -87,6 +88,7 @@ public class User implements UserDetails {
         this.userImageURL = newUserDTO.userImageURL();
         this.userCreationDate = LocalDateTime.now();
         this.userType = userType;
+        this.userEnabled = true;
     }
 
     public static User newCommonUser(NewUserDTO newUserDTO){
