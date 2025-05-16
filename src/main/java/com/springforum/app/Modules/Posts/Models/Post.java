@@ -1,5 +1,6 @@
 package com.springforum.app.Modules.Posts.Models;
 
+import com.springforum.app.Modules.Topics.Model.Topics;
 import com.springforum.app.Modules.User.Model.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,6 +25,10 @@ public class Post {
 
     @Column(nullable = false)
     private String postTags;
+
+    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
+    Topics topics;
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
