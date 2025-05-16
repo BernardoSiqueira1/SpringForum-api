@@ -68,29 +68,14 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 			<version>3.4.4</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
 			<version>4.5.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.13.0-M2</version>
-			<scope>test</scope>
-		</dependency>
+
 	</dependencies>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.modulith</groupId>
-				<artifactId>spring-modulith-bom</artifactId>
-				<version>${spring-modulith.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<build>
 		<plugins>
