@@ -23,9 +23,9 @@ public class TopicsService {
     @Transactional
     public void createNewTopic(NewTopicDTO newTopicDTO){
 
-        Topics newPostTopic = new Topics(newTopicDTO);
+        Topics newTopic = TopicAdapters.toTopicEntity(newTopicDTO.topicName());
 
-        topicsRepository.save(newPostTopic);
+        topicsRepository.save(newTopic);
 
     }
 

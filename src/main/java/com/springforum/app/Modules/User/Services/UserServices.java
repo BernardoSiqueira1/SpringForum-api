@@ -4,6 +4,7 @@ import com.springforum.app.Modules.User.Adapters.UserAdapters;
 import com.springforum.app.Modules.User.DTOs.EditUserCredentialsDTO;
 import com.springforum.app.Modules.User.DTOs.NewUserDTO;
 import com.springforum.app.Modules.User.DTOs.UserProfileDetailsDTO;
+import com.springforum.app.Modules.User.Enums.UserType;
 import com.springforum.app.Modules.User.Model.User;
 import com.springforum.app.Modules.User.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,7 +25,7 @@ public class UserServices {
 
     @Transactional
     public void createNewUser(NewUserDTO newUserDTO){
-        User newForumUser = User.newCommonUser(newUserDTO);
+        User newForumUser = UserAdapters.toUserEntity(newUserDTO, UserType.USER);
         newForumUser.setUserPassword(passwordEncoder.encode(newForumUser.getUserPassword()));
 
         userRepository.save(newForumUser);

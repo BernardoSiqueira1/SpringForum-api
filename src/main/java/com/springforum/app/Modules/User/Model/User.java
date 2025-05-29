@@ -81,21 +81,14 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() { return this.userEnabled; }
 
-    private User(NewUserDTO newUserDTO, UserType userType){
-        this.userEmail = newUserDTO.userEmail();
-        this.userNickname = newUserDTO.userName();
-        this.userPassword = newUserDTO.userPassword();
-        this.userImageURL = newUserDTO.userImageURL();
+    public User(String userEmail, String userNickname, String userPassword, String userImageURL, UserType userType){
+        this.userEmail = userEmail;
+        this.userNickname = userNickname;
+        this.userPassword = userPassword;
+        this.userImageURL = userImageURL;
         this.userCreationDate = LocalDateTime.now();
         this.userType = userType;
         this.userEnabled = true;
     }
 
-    public static User newCommonUser(NewUserDTO newUserDTO){
-        return new User(newUserDTO, UserType.USER);
-    }
-
-    public static User newAdminUser(NewUserDTO newUserDTO){
-        return new User(newUserDTO, UserType.ADMIN);
-    }
 }
