@@ -27,7 +27,7 @@ public class Topics {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<Post> relatedPosts;
 
-    public Topics(NewTopicDTO newTopicDTO){
-        this.topicName = newTopicDTO.topicName();
+    public Topics(String topicName){
+        this.topicName = topicName;
     }
 }
