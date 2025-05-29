@@ -39,7 +39,7 @@ public class ExceptionHandlersConfig {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handleNotFoundException(EntityNotFoundException notFoundException){
-        return ResponseEntity.status(404).body(notFoundException.getMessage());
+        return ResponseEntity.status(404).body("Informação buscada não encontrada na base de dados");
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

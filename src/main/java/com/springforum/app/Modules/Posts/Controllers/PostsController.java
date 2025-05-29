@@ -1,34 +1,46 @@
 package com.springforum.app.Modules.Posts.Controllers;
 
+import com.springforum.app.Modules.Posts.DTOs.NewPostDTO;
+import com.springforum.app.Modules.Posts.Services.PostServices;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/posts")
 public class PostsController {
 
-    @PostMapping("")
-    public ResponseEntity<?> createNewPost(){
-        return null;
+    @Autowired
+    private PostServices postServices;
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createNewPost(@Valid @RequestBody  NewPostDTO newPostDTO){
+        postServices.createNewPost(newPostDTO);
+
+        return ResponseEntity.status(200).body("Post criado.");
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<?> getPostById(){
-        return null;
+    public ResponseEntity<?> getPostById(@PathVariable long postId){
+        var response = postServices.getPostDetailsId(postId);
+
+        return ResponseEntity.status(200).body(response);
     }
 
-    @GetMapping("/{postPage}")
-    public ResponseEntity<?> getPostByPage(){
-        return null;
+    @GetMapping("/{topicName}/{postPage}")
+    public ResponseEntity<?> getPostsByCategory(@PathVariable String topicName, @PathVariable int postPage){
+        var response = postServices.getAllPostsPage(postPage, topicName);
+
+        return ResponseEntity.status(200).body(response);
     }
 
-    @PutMapping("/edit/{postId}")
-    public ResponseEntity<?> editPost(){
-        return null;
-    }
-
+    @PreAuthorize("@postSecurity.isPostOwner(postId, authentication.name)")
     @DeleteMapping("/delete/{postId}")
-    public ResponseEntity<?> deletePost(){
-        return null;
+    public ResponseEntity<?> deletePost(@PathVariable long postId){
+        postServices.deletePostId(postId);
+
+        return ResponseEntity.status(200).body("Seu post foi removido.");
     }
 }
