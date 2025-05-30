@@ -11,5 +11,4 @@ Funcionalidades:
 
 Ações de usuário como excluir e editar informações possuem verificação de autoria a fim de evitar a execução indevida de comandos utilizando o nome de outros usuários.
 
-#### Execução da API:
-Um DockerFile será disponibilizado em breve.
+#### Execução da Aplicação:
