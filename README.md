@@ -1,7 +1,7 @@
 ### SpringForum APP - Api de Fórum
 
 #### Sobre o projeto:
-API de um fórum simples desenvolvida para não perder a prática. Cobre as funcionalidades mais básicas que se espera de uma aplicação desse tipo.
+API baseada no modelo de um web fórum clássico: usuários podem criar postagens, buscar tópicos e postagens e criar comentários. Moderadores podem excluir ou fechar comentários em postagens, suspender usuários e criar tópicos. 
 
 Funcionalidades:
 * Usuários
