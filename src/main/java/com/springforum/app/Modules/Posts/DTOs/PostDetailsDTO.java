@@ -1,5 +1,7 @@
 package com.springforum.app.Modules.Posts.DTOs;
 
+import java.io.Serializable;
+
 public record PostDetailsDTO(
         long postId,
         String postTitle,
@@ -8,4 +10,4 @@ public record PostDetailsDTO(
         Long originalPosterId,
         String originalPosterName,
         String topicName
-) {}
+) implements Serializable {}

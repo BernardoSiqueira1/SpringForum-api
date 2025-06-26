@@ -1,6 +1,8 @@
 package com.springforum.app.Config;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.springforum.app.Shared.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
@@ -44,17 +46,22 @@ public class ExceptionHandlersConfig {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<?> handleViolatedConstraint(DataIntegrityViolationException integrityViolationException){
-        return ResponseEntity.status(500).body(integrityViolationException.getMessage());
+        return ResponseEntity.status(500).body("Houveram erros nos campos: " + integrityViolationException.getMessage());
     }
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<?> handleAuthenticationError(){
-        return ResponseEntity.status(401).body("Credenciais inválidas, verifique usuário/senha");
+        return ResponseEntity.status(401).body(ExceptionMessages.AUTHENTICATION_ERROR);
     }
 
     @ExceptionHandler(JWTDecodeException.class)
     public ResponseEntity<?> handleAuthorizationError(){
         return ResponseEntity.status(403).body("Usuário não está autorizado, verifique token/autenticação");
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<?> handleTokenExpiredError(){
+        return ResponseEntity.status(403).body("O token de autenticação não é mais válido");
     }
 
 }
