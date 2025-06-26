@@ -13,6 +13,7 @@ import com.springforum.app.Shared.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -50,12 +51,14 @@ public class PostServices {
         postRepository.save(postQuery);
     }
 
+    @Cacheable("posts")
     public PostDetailsDTO getPostDetailsId(long postId){
         Post postQuery = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.POST_NOT_FOUND.getMessage()));
 
         return PostAdapters.toPostDetailsDTO(postQuery);
     }
 
+    @Cacheable("posts")
     public List<PostDetailsDTO> getAllPostsPage(int pageNumber, String topicName){
         PageRequest queryPage = PageRequest.of((int)pageNumber, 10);
         Page<Post> postPage = postRepository.pagePostsByTopic(queryPage, topicName);

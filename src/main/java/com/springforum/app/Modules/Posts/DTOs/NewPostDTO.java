@@ -1,6 +1,8 @@
 package com.springforum.app.Modules.Posts.DTOs;
 
-public record NewPostDTO(
+import java.io.Serializable;
+
+public record NewPostDTO (
 
         String postTitle,
         String postImageUrl,
@@ -8,4 +10,4 @@ public record NewPostDTO(
         long topicId,
         long originalPosterId
 
-) {}
+) implements Serializable {}
