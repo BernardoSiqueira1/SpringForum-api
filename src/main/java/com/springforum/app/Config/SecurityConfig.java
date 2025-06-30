@@ -32,7 +32,7 @@ public class SecurityConfig {
                         requests
                                 .requestMatchers("/users/create").permitAll()
                                 .requestMatchers("/auth/login").permitAll()
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

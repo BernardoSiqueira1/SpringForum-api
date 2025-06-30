@@ -21,7 +21,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Configuration
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
 
