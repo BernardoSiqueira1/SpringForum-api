@@ -4,6 +4,7 @@ import com.springforum.app.Modules.Replies.DTOs.NewReplyDTO;
 import com.springforum.app.Modules.Replies.Services.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,8 +14,8 @@ public class ReplyController {
     @Autowired
     ReplyService replyService;
 
-    @PostMapping("/replyto/{postId}")
-    public ResponseEntity<?> replyToPost(@PathVariable long userId,@PathVariable long postId, @RequestBody NewReplyDTO newReplyDTO){
+    @PostMapping("/replyto/{postId}/{userId}")
+    public ResponseEntity<?> replyToPost(@PathVariable long userId, @PathVariable long postId, @RequestBody NewReplyDTO newReplyDTO){
         replyService.createReply(userId, postId, newReplyDTO);
 
         return ResponseEntity.status(200).body("Resposta criada para a postagem");
@@ -27,7 +28,8 @@ public class ReplyController {
         return ResponseEntity.status(200).body(response);
     }
 
-    @DeleteMapping("/delete/{postId}/{replyId}")
+    @DeleteMapping("/delete/{replyId}")
+    @PreAuthorize("@postSecurity.isReplyOwner(#replyId, authentication.name)")
     public ResponseEntity<?> deleteReply(@PathVariable long replyId) {
         replyService.deleteReply(replyId);
 
