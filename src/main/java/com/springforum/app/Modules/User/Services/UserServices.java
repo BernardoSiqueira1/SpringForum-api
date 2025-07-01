@@ -32,6 +32,14 @@ public class UserServices {
         userRepository.save(newForumUser);
     }
 
+    @Transactional
+    public void createAdminUser(NewUserDTO newUserDTO){
+        User newForumUser = UserAdapters.toUserEntity(newUserDTO, UserType.ADMIN);
+        newForumUser.setUserPassword(passwordEncoder.encode(newForumUser.getUserPassword()));
+
+        userRepository.save(newForumUser);
+    }
+
     public UserProfileDetailsDTO getUserDetailsById(long userId){
         User userQuery = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.USER_NOT_FOUND.getMessage()));
