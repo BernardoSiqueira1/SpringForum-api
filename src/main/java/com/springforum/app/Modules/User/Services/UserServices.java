@@ -7,7 +7,7 @@ import com.springforum.app.Modules.User.DTOs.UserProfileDetailsDTO;
 import com.springforum.app.Modules.User.Enums.UserType;
 import com.springforum.app.Modules.User.Model.User;
 import com.springforum.app.Modules.User.Repository.UserRepository;
-import com.springforum.app.Shared.ExceptionMessages;
+import com.springforum.app.Shared.Exceptions.UserNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +32,17 @@ public class UserServices {
         userRepository.save(newForumUser);
     }
 
+    @Transactional
+    public void createAdminUser(NewUserDTO newUserDTO){
+        User newForumUser = UserAdapters.toUserEntity(newUserDTO, UserType.ADMIN);
+        newForumUser.setUserPassword(passwordEncoder.encode(newForumUser.getUserPassword()));
+
+        userRepository.save(newForumUser);
+    }
+
     public UserProfileDetailsDTO getUserDetailsById(long userId){
         User userQuery = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.USER_NOT_FOUND.getMessage()));
+                .orElseThrow(UserNotFoundException::new);
 
         return UserAdapters.userToUserProfileDTO(userQuery);
     }
@@ -42,7 +50,7 @@ public class UserServices {
     @Transactional
     public void editUserCredentials(long userId, EditUserCredentialsDTO editCredentialsDTO){
         User userQuery = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.USER_NOT_FOUND.getMessage()));
+                .orElseThrow(UserNotFoundException::new);
 
         userQuery.setUserEmail(editCredentialsDTO.newUserEmail());
         userQuery.setUserPassword(passwordEncoder.encode(editCredentialsDTO.newUserPassword()));

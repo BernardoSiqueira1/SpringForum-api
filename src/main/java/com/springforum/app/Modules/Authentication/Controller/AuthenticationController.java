@@ -17,7 +17,7 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody AuthCredentialsDTO authCredentialsDTO){
+    public ResponseEntity<?> authenticateUser(@RequestBody AuthCredentialsDTO authCredentialsDTO) {
         var response = authenticationService.authenticateUser(authCredentialsDTO.userLogin(), authCredentialsDTO.userPassword());
 
         return ResponseEntity.status(200).body(response);
