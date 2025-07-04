@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PutMapping("/edit/{userId}")
-    @PreAuthorize("@postSecurity.isAccountOwner(#userId, authentication.name)")
+    @PreAuthorize("@authorshipVerification.verifyIsAccountOwner(#userId, authentication.name)")
     public ResponseEntity<?> editUser(@PathVariable(required = true) long userId, @RequestBody @Valid EditUserCredentialsDTO editUserCredentialsDTO){
         userServices.editUserCredentials(userId, editUserCredentialsDTO);
 
@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{userId}")
-    @PreAuthorize("@postSecurity.isAccountOwner(#userId, authentication.name)")
+    @PreAuthorize("@authorshipVerification.verifyIsAccountOwner(#userId, authentication.name)")
     public ResponseEntity<?> deleteUser(@PathVariable(required = true) long userId){
         userServices.deleteUserById(userId);
 

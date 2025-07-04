@@ -2,10 +2,7 @@ package com.springforum.app.Config;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.springforum.app.Shared.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.ValidationException;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.naming.AuthenticationException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -44,24 +39,19 @@ public class ExceptionHandlersConfig {
         return ResponseEntity.status(404).body("Informação buscada não encontrada na base de dados");
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<?> handleViolatedConstraint(DataIntegrityViolationException integrityViolationException){
-        return ResponseEntity.status(500).body("Houveram erros nos campos: " + integrityViolationException.getMessage());
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<?> handleAuthenticationException(){
+        return ResponseEntity.status(401).body("Não foi possível fazer o login, verifique suas credenciais");
     }
 
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<?> handleAuthenticationError(){
-        return ResponseEntity.status(401).body(ExceptionMessages.AUTHENTICATION_ERROR);
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<?> handleViolatedConstraint(DataIntegrityViolationException integrityViolationException){
+        return ResponseEntity.status(409).body("Houveram conflitos nos valores: " + integrityViolationException.getMessage());
     }
 
     @ExceptionHandler(JWTDecodeException.class)
     public ResponseEntity<?> handleAuthorizationError(){
         return ResponseEntity.status(403).body("Usuário não está autorizado, verifique token/autenticação");
-    }
-
-    @ExceptionHandler(TokenExpiredException.class)
-    public ResponseEntity<?> handleTokenExpiredError(){
-        return ResponseEntity.status(403).body("O token de autenticação não é mais válido");
     }
 
 }

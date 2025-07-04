@@ -14,9 +14,9 @@ public class ReplyController {
     @Autowired
     ReplyService replyService;
 
-    @PostMapping("/replyto/{postId}/{userId}")
+    @PostMapping(value = "/replyto/{postId}")
     public ResponseEntity<?> replyToPost(@PathVariable long userId, @PathVariable long postId, @RequestBody NewReplyDTO newReplyDTO){
-        replyService.createReply(userId, postId, newReplyDTO);
+        replyService.createReply(userId, newReplyDTO);
 
         return ResponseEntity.status(200).body("Resposta criada para a postagem");
     }
@@ -29,7 +29,7 @@ public class ReplyController {
     }
 
     @DeleteMapping("/delete/{replyId}")
-    @PreAuthorize("@postSecurity.isReplyOwner(#replyId, authentication.name)")
+    @PreAuthorize("@authorshipVerification.verifyIsReplyOwner(#replyId, authentication.name)")
     public ResponseEntity<?> deleteReply(@PathVariable long replyId) {
         replyService.deleteReply(replyId);
 

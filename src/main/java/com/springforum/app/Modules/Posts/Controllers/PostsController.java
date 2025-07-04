@@ -15,8 +15,10 @@ public class PostsController {
     @Autowired
     private PostServices postServices;
 
+
+    @PreAuthorize("@authorshipVerification.verifyIsAccountOwner(newPostDTO.originalPosterId, authentication.name)")
     @PostMapping("/create")
-    public ResponseEntity<?> createNewPost(@Valid @RequestBody  NewPostDTO newPostDTO){
+    public ResponseEntity<?> createNewPost(@Valid @RequestBody NewPostDTO newPostDTO){
         postServices.createNewPost(newPostDTO);
 
         return ResponseEntity.status(200).body("Post criado.");
@@ -36,7 +38,7 @@ public class PostsController {
         return ResponseEntity.status(200).body(response);
     }
 
-    @PreAuthorize("@postSecurity.isPostOwner(postId, authentication.name)")
+    @PreAuthorize("@authorshipVerification.verifyIsPostOwner(postId, authentication.name)")
     @DeleteMapping("/delete/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable long postId){
         postServices.deletePostId(postId);

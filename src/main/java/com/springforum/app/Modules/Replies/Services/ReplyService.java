@@ -9,7 +9,8 @@ import com.springforum.app.Modules.Replies.Model.Replies;
 import com.springforum.app.Modules.Replies.Repository.ReplyRepository;
 import com.springforum.app.Modules.User.Model.User;
 import com.springforum.app.Modules.User.Repository.UserRepository;
-import com.springforum.app.Shared.ExceptionMessages;
+import com.springforum.app.Shared.Exceptions.PostNotFoundException;
+import com.springforum.app.Shared.Exceptions.UserNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,9 @@ public class ReplyService {
     private UserRepository userRepository;
 
     @Transactional
-    public void createReply(long userId, long postId, NewReplyDTO newReplyDTO){
-        User userQuery = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.USER_NOT_FOUND.getMessage()));
-        Post postQuery = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.POST_NOT_FOUND.getMessage()));
+    public void createReply(long postId, NewReplyDTO newReplyDTO){
+        User userQuery = userRepository.findById(newReplyDTO.replyUserId()).orElseThrow(UserNotFoundException::new);
+        Post postQuery = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
 
         Replies newReply = ReplyAdapter.toReplyEntity(newReplyDTO, userQuery, postQuery);
 
