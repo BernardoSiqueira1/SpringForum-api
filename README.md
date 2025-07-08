@@ -10,5 +10,3 @@ Funcionalidades:
 * Criação de tópicos
 
 Ações de usuário como excluir e editar informações possuem verificação de autoria a fim de evitar a execução indevida de comandos utilizando o nome de outros usuários.
-
-#### Execução da Aplicação:
